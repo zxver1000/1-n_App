@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../main_screens.dart';
 import '../constants.dart';
+import 'package:provider/provider.dart';
+import '../main.dart';
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
 
@@ -452,11 +454,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                         icon: Icon(Icons.arrow_forward),
                         color: Colors.white,
                         onPressed: (){
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return main_screen();
-                              })
-                          );
+                          context.read<loginindex>().login();
                         },
                       ),
 

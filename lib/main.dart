@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import './map/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -11,7 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 void _permission() async {
   var requestStatus = await Permission.location.request();
   var status = await Permission.location.status;
@@ -58,10 +59,83 @@ Future<bool>checkPermission()async{
 
 }
 
+class markerdata extends ChangeNotifier {
+  var cnt = 2;
+
+
+  void altercnt(int num) {
+    cnt = num;
+    notifyListeners();
+  }
+
+  List<Marker>marker = [Marker(
+      markerId: MarkerId("건국대 공학관"),
+      draggable: true,
+      infoWindow: InfoWindow(
+          title: '건국대 공학관',
+          snippet: '하윙'
+      ),
+
+      position: LatLng(37.535905, 127.088795)
+  )];
+
+
+  void initmarker() {
+    marker.add(Marker(
+        markerId: MarkerId("건국대 신공학관"),
+        draggable: true,
+        infoWindow: InfoWindow(
+            title: '건국대 신공학관',
+            snippet: '하윙'
+        ),
+        onTap: () =>
+        {
+          altercnt(5)
+        },
+        position: LatLng(37.540905, 127.078595)));
+
+    marker.add(Marker(
+        markerId: MarkerId("건국대 공학관"),
+        draggable: true,
+        infoWindow: InfoWindow(
+            title: '건국대 공학관',
+            snippet: '하윙'
+        ),
+        onTap: () =>
+        {
+          altercnt(3)
+        }
+        ,
+        position: LatLng(37.535905, 127.078595)
+    ));
+  }
+}
+
+class maptab extends ChangeNotifier{
+  var tab=0;
+
+  void altertab1(){
+      tab=1;
+  notifyListeners();
+}
+
+  void altertab0(){
+    tab=0;
+    notifyListeners();
+  }
+  void altertab2(){
+    tab=2;
+    notifyListeners();
+  }
+
+}
+
 void main() {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (c)=>loginindex()),
+      ChangeNotifierProvider(create: (c)=>maptab()),
+      ChangeNotifierProvider(create: (c)=>markerdata()),
     ],
     child: MyApp(),)
   );
@@ -75,12 +149,27 @@ class MyApp extends StatefulWidget {
 }
 
 class loginindex extends ChangeNotifier{
+  StreamController<String> streamController2 = StreamController<String>();
 
   var index=0;
+
   void aterindex(){
     index=1;
     notifyListeners();
-}
+
+
+}void logout(){
+    streamController2.add("로그아웃");
+    notifyListeners();
+  }
+  void login(){
+    streamController2.add("로그인");
+    notifyListeners();
+  }
+  void init(){
+    streamController2.add("init");
+    notifyListeners();
+  }
 
 }
 
@@ -114,20 +203,20 @@ class _MyAppState extends State<MyApp> {
 
 
   @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-    streamController.add("확인");
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
 
-    home:context.watch<loginindex>().index==1?main_screen():
-      LoginSignupScreen()
+    home:StreamBuilder(
+      stream: context.watch<loginindex>().streamController2.stream,
+      builder: (BuildContext context,snapshot){
+         if(snapshot.data.toString()=="로그인") {
+           return main_screen();
+         } else{
+           return LoginSignupScreen();
+         }
+
+      },
+    )
 
     );
   }

@@ -101,11 +101,13 @@ class _main_screenState extends State<main_screen> {
       appBar:AppBar(
 automaticallyImplyLeading: false,
         title: Text('1/N',style: TextStyle(color: Colors.black),),
-        backgroundColor: mainColor,
-        actions: [IconButton(icon:Icon(Icons.exit_to_app_sharp),
+        backgroundColor: Colors.white70,
+        actions: [IconButton(icon:Icon(Icons.exit_to_app_sharp,
+        color: Colors.black,),
 
-          onPressed: () async{
-          context.read<loginindex>().aterindex();
+          onPressed: () {
+          //로그아웃!!
+          context.read<loginindex>().logout();
 
           },
           iconSize: 30,),
@@ -118,9 +120,9 @@ automaticallyImplyLeading: false,
         showSelectedLabels: true,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.white70,
+        unselectedItemColor: Colors.grey,
         currentIndex:tab,
-        backgroundColor: mainColor,
+        backgroundColor: Colors.white70,
         onTap: (i){
           setState(() {
             tab=i;
