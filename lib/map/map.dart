@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
+import 'package:side_app/chat/chatScreen.dart';
 class name{
   var s="안누름";
   name(this.s);
@@ -208,9 +209,6 @@ class _firstuiState extends State<firstui> {
     return Column(
       children: [
 
-
-
-
         SizedBox(
           width: double.infinity,
           height: 250,
@@ -277,11 +275,9 @@ class _seconduiState extends State<secondui> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         SizedBox(
         height: 70,
-          child:
-          ListView.builder(
+          child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: name.length,
               itemBuilder: (BuildContext context,int index){
@@ -317,8 +313,7 @@ class _seconduiState extends State<secondui> {
                       title: Text("건대 맛집"),
                       leading: Icon(Icons.location_on),
                     )
-
-
+                    
                 );
 
               })
@@ -332,3 +327,16 @@ class _seconduiState extends State<secondui> {
   }
 }
 
+class thirdui extends StatefulWidget {
+  const thirdui({Key? key}) : super(key: key);
+
+  @override
+  State<thirdui> createState() => _thirduiState();
+}
+
+class _thirduiState extends State<thirdui> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

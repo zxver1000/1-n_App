@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import './map/map.dart';
 import 'constants.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:side_app/chat/chatScreen.dart';
 
 void _permission() async {
   var requestStatus = await Permission.locationWhenInUse.request();
@@ -113,7 +113,7 @@ automaticallyImplyLeading: false,
           iconSize: 30,),
         ],
       ) ,
-      body: [Text("home"),Text("!1"),map()][tab]
+      body: [Text("home"),chatscreen(),map()][tab]
       ,
       bottomNavigationBar:  BottomNavigationBar(
         showUnselectedLabels: true,
