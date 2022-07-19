@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:side_app/login/signup.dart';
 import '../main_screens.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ class LoginSignupScreen extends StatefulWidget {
   @override
   State<LoginSignupScreen> createState() => _LoginSignupScreenState();
 }
+
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
   bool isSignupScreen = true;
@@ -393,7 +395,27 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       ),
                                       contentPadding: EdgeInsets.all(10)
                                   ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children:<Widget>[
+                                    Text("Don't have an account? "),
+                                    GestureDetector(onTap: (){
+                                      Navigator.push(context,
+                                          MaterialPageRoute(
+                                              builder: (context)=>
+                                                  RegisterScrren()));
+                                    } ,
+                                        child:Text(
+                                            "Signup",
+                                            style:TextStyle(color: Colors.blueAccent,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                        ),
+                                    )
+                                  ],
                                 )
+
                               ],
                             ),
 
