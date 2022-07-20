@@ -394,6 +394,21 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       contentPadding: EdgeInsets.all(10)
                                   ),
                                 )
+
+                                ,
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(child: Text("황치현벙슨"),
+                                      onPressed: (){
+
+                                      },
+                                    
+                                    )
+                                  ],
+                                )
+
                               ],
                             ),
 

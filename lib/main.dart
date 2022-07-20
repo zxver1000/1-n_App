@@ -9,9 +9,9 @@ import 'main_screens.dart';
 import 'package:provider/provider.dart';
 import './login/loginScreen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 void _permission() async {
   var requestStatus = await Permission.location.request();
@@ -46,6 +46,9 @@ void _permission() async {
 }
 
 
+
+
+
 Future<bool>checkPermission()async{
   bool status=await Permission.location.isGranted;
 
@@ -58,6 +61,35 @@ Future<bool>checkPermission()async{
     }
 
 }
+
+class commentdata{
+ String name="";
+ var content="";
+
+
+  commentdata(this.name,this.content);
+
+}
+
+class comments extends ChangeNotifier{
+
+List<commentdata>datas=[commentdata("김건국","맛집어디?")];
+var k=1;
+
+
+
+void addcomment(String name,var content){
+  var newone=commentdata(name,content);
+  datas=[...datas,newone];
+  notifyListeners();
+
+}
+
+
+
+
+}
+
 
 class markerdata extends ChangeNotifier {
   var cnt = 2;
@@ -136,6 +168,7 @@ void main() {
       ChangeNotifierProvider(create: (c)=>loginindex()),
       ChangeNotifierProvider(create: (c)=>maptab()),
       ChangeNotifierProvider(create: (c)=>markerdata()),
+      ChangeNotifierProvider(create: (c)=>comments()),
     ],
     child: MyApp(),)
   );

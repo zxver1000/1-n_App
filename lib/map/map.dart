@@ -4,8 +4,11 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:side_app/constants.dart';
 import '../main.dart';
 import 'package:side_app/chat/chatScreen.dart';
+import 'package:flutter/cupertino.dart';
+import '../main.dart';
 class name{
   var s="안누름";
   name(this.s);
@@ -240,7 +243,14 @@ class _firstuiState extends State<firstui> {
                     leading: Icon(Icons.meeting_room,color: Colors.blueAccent,),
                     title: Text("제목 ->ㄱㄱ"),
                     subtitle: Text("참여인원 2명"),
-                    trailing: TextButton(onPressed: (){},
+                    trailing: TextButton(onPressed: (){
+
+
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return inforamtion();
+                      }));
+                    },
                       child: Text("참여하기"),),
                   ),);
               },childCount: context.watch<markerdata>().cnt),
@@ -338,5 +348,302 @@ class _thirduiState extends State<thirdui> {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+}
+
+
+class inforamtion extends StatefulWidget {
+  const inforamtion({Key? key}) : super(key: key);
+
+  @override
+  State<inforamtion> createState() => _inforamtionState();
+}
+
+class _inforamtionState extends State<inforamtion> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      body: SingleChildScrollView(
+        child:Column(
+
+          children: [
+
+            SizedBox(
+                height:
+                25),
+            SizedBox(height: 150,
+
+                child:
+                Image.asset('assets/images/food_1.png',fit: BoxFit.fill,width: double.infinity,)
+
+
+            ),
+            Padding(padding: EdgeInsets.only(top: 1)
+              ,child:   Divider(color: Colors.black,height: 1.0,)
+              ,),
+
+            ListTile(title: Text("건대 맛집",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),trailing:
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+
+
+
+                IconButton(onPressed: (){
+
+                  Navigator.of(context,rootNavigator: true).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context)=>comment()));
+
+                }, icon: Icon(Icons.chat_outlined,color: Colors.black,size: 25,))
+,
+                Padding(padding: EdgeInsets.only(left: 10)),
+                Icon(Icons.heart_broken_sharp,color: Colors.red,size: 25,)
+              ],
+            )
+              ,
+            ),
+
+            Padding(padding: EdgeInsets.only(left: 11)
+              ,
+              child: SizedBox(
+                height: 25,
+                child: Row(
+                  children: [
+                    Icon(Icons.star,color: Colors.yellow,),
+                    Padding(padding: EdgeInsets.only(left: 8),
+                      child: Text("4.5(0)"),)
+                  ],
+                ),
+              ),
+
+            ),
+
+            Padding(padding: EdgeInsets.only(top: 20)),
+
+            SizedBox(
+              height: 25,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20)
+                    ,child: Text("최소주문   |    ",style: TextStyle(
+                        fontSize: 15
+                    ),),),
+                  Text("14000원    ",style: TextStyle(
+                      fontSize: 15
+                  ),),
+
+
+                  Icon(Icons.arrow_forward),
+
+                  Padding(padding: EdgeInsets.only(left: 10),
+                    child: Text("7000원",style: TextStyle(fontSize: 15,color: Colors.redAccent)),),
+
+
+
+
+                ],),
+            ),
+
+
+            SizedBox(
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20)
+                    ,child: Text("배달요금   |      ",style: TextStyle(
+                        fontSize: 15
+                    ),),),
+                  Text("3000원    ",style: TextStyle(
+                      fontSize: 15
+                  ),),
+
+
+                  Icon(Icons.arrow_forward),
+
+                  Padding(padding: EdgeInsets.only(left: 10),
+                    child: Text("1500원",style: TextStyle(fontSize: 15,color: Colors.redAccent)),)
+
+
+                  ,
+
+
+
+
+                ],),
+            ),
+
+
+            SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20)
+                    ,child: Text("현재인원   |      ",style: TextStyle(
+                        fontSize: 15
+                    ),),),
+                  Text("1명    ",style: TextStyle(
+                      fontSize: 15
+                  ),),
+
+
+
+
+
+
+
+
+                ],),
+            ),
+
+
+            SizedBox(
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20)
+                    ,child: Text("배달시간   |      ",style: TextStyle(
+                        fontSize: 15
+                    ),),),
+                  Text("30~40분   ",style: TextStyle(
+                      fontSize: 15
+                  ),),
+
+
+
+
+
+
+
+
+                ],),
+            ),
+
+            SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20)
+                    ,child: Text("가게위치   |      ",style: TextStyle(
+                        fontSize: 15
+                    ),),),
+                  Text("1.5km   ",style: TextStyle(
+                      fontSize: 15
+                  ),),
+
+
+
+
+
+
+
+
+                ],),
+            ),
+
+            Divider(height: 5,color: Colors.black,),
+
+
+
+          ],
+        )
+      )
+      ,
+      bottomNavigationBar: BottomAppBar(
+        color: mainColor,
+
+        child:
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [TextButton(onPressed: (){}, child: Text("참여하기",
+          style: TextStyle(color: Colors.white70,
+          fontSize: 20),))],
+        )
+      )
+      ,
+    )
+      ;
+  }
+}
+
+
+
+class comment extends StatefulWidget {
+  const comment({Key? key}) : super(key: key);
+
+  @override
+  State<comment> createState() => _commentState();
+}
+
+class _commentState extends State<comment> {
+  final controllerComment=TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+
+
+    return Scaffold(
+        appBar: AppBar(title: Text("댓글 "+context.watch<comments>().datas.length.toString()),),
+        body: Column(
+          children:<Widget>[
+            Flexible(
+              child:Stack(children: [Positioned(top:0.0,child: Text("")),
+                buildItem(index:3)],),
+
+            ),Divider(height: 1.0,color: Colors.black,),
+            Container(decoration:BoxDecoration(color: Theme.of(context).cardColor),
+              child: Row(children: [Flexible(child:TextField(controller: controllerComment,decoration: InputDecoration(hintText: "댓글을 남겨보세요!") )
+              ),TextButton(onPressed: (){
+                print(controllerComment.text);
+
+                //context.read<boardData>().addcomment(context.read<boardData>().userData[widget.index],controllerComment.text.toString());
+                context.read<comments>().addcomment("고건국", controllerComment.text);
+                controllerComment.clear();
+              }, child: Text("등록",),style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  primary: Colors.white
+              ),)
+              ],),)
+          ],
+        )
+
+    );
+
+
+  }
+}
+
+
+class buildItem extends StatefulWidget {
+  const buildItem({Key? key,this.data,this.index}) : super(key: key);
+  final data;
+  final index;
+  @override
+  State<buildItem> createState() => _buildItemState();
+}
+
+class _buildItemState extends State<buildItem> {
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+
+    super.setState(fn);
+  }
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: context.watch<comments>().datas.length,
+      itemBuilder: (BuildContext context,int index)=>
+          Column(children: [ListTile(
+            leading: Icon(Icons.person,size: 30,),
+            title:Text(context.watch<comments>().datas[index].name,style: TextStyle(fontSize: 15),),
+            subtitle: Text(context.watch<comments>().datas[index].content),
+          ),Divider(height: 1,color: Colors.black,)],) ,
+    );
   }
 }
