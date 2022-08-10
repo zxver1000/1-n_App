@@ -6,6 +6,12 @@ import '../main_screens.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
@@ -86,7 +92,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 duration: Duration(milliseconds: 500),
                 curve: Curves.easeIn,
                 padding: EdgeInsets.all(20.0),
-                height: isSignupScreen ? 280.0 : 250.0,
+                height: isSignupScreen ? 280.0 : 370.0,
                 width: MediaQuery.of(context).size.width-40,
                 margin: EdgeInsets.symmetric(horizontal: 20.0),
                 decoration: BoxDecoration(
@@ -396,6 +402,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       contentPadding: EdgeInsets.all(10)
                                   ),
                                 ),
+                                Padding(padding: EdgeInsets.only(top:8)),
+
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children:<Widget>[
@@ -414,6 +422,85 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                         ),
                                     )
                                   ],
+                                ),
+
+
+                                Row(
+                                  children: [
+
+                                    SizedBox(
+                                      height: 70
+                                      ,
+                                      width: 160,
+                                      child:  IconButton(onPressed: ()async{
+
+                                        NaverLoginResult res=await FlutterNaverLogin.logIn();
+
+                                        print("로그인쓰");
+
+                                        print(res.account.email);
+
+                                        NaverLoginResult res1 = await FlutterNaverLogin.logOut();
+                                        context.read<loginindex>().login();
+                                      },
+                                        icon: Image.asset('assets/images/naver.png'),
+
+                                      )
+                                      ,
+                                    )
+
+                                  ,
+
+                                    SizedBox(
+                                      height: 70
+                                      ,
+                                      width: 160,
+                                      child:  IconButton(onPressed: (){print("!");},
+                                        icon: Image.asset('assets/images/kakao.png'),
+
+                                      )
+                                      ,
+                                    )
+
+                                    ,
+
+
+
+
+
+                                  ],
+                                )
+
+                      ,Row(
+                                  children: [
+                                    SizedBox(
+                                      height: 50
+                                      ,
+                                      width: 160,
+                                      child:  IconButton(onPressed: (){print("!");},
+                                        icon: Image.asset('assets/images/google.png'),
+
+                                      )
+                                      ,
+                                    )
+
+                                    ,
+
+                                    SizedBox(
+                                      height: 50
+                                      ,
+                                      width: 160,
+                                      child:  IconButton(onPressed: (){print("!");},
+                                        icon: Image.asset('assets/images/github.png'),
+
+                                      )
+                                      ,
+                                    )
+
+                                    ,
+
+
+                                  ],
                                 )
 
                               ],
@@ -430,7 +517,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             AnimatedPositioned(
               duration: Duration(milliseconds: 500),
               curve: Curves.easeIn,
-              top: isSignupScreen ? 430 : 390,
+              top: isSignupScreen ? 430 : 500,
               right: 0,
               left: 0,
               child: Center(

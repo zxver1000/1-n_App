@@ -1,9 +1,15 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:http/http.dart' as http;
 import './map/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import './splash/splash.dart';
+import 'firebase_options.dart';
 import 'routes.dart';
 import 'main_screens.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +19,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
 void _permission() async {
   var requestStatus = await Permission.location.request();
   var status = await Permission.location.status;
@@ -36,7 +44,7 @@ void _permission() async {
   } else if (status.isRestricted) {
     // 권한 요청 거부, 해당 권한에 대한 요청을 표시하지 않도록 선택하여 설정화면에서 변경해야함. ios
     print("isRestricted");
-    openAppSettings();
+    openAppSettings();//domdom.tistory.com/entry/flutter-%ED%94%8C%EB%9F%AC%ED%84%B0-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
   } else if (status.isDenied) {
     // 권한 요청 거절
     print("isDenied");
@@ -93,10 +101,53 @@ void addcomment(String name,var content){
 
 class markerdata extends ChangeNotifier {
   var cnt = 2;
-
+  var lat;
+  var long;
 
   void altercnt(int num) {
     cnt = num;
+    notifyListeners();
+  }
+
+  void setlang(idx)
+  {
+    lat=idx.latitude;
+  long=idx.longtitude;
+    notifyListeners();
+  }
+
+  void searchname(LatLng idx) async{
+
+
+   var lats=idx.latitude;
+   var longs=idx.longitude;
+    final url='https://maps.googleapis.com/maps/api/geocode/json?latlng=$lats,$longs&key=AIzaSyCFZeBuFQYqg9qt7Yd4xwWC6UBNOwzDSi8&language=ko';
+    final reponse=await http.get(Uri.parse(url));
+    print(jsonDecode(reponse.body)['results'][0]['formatted_address']);
+
+   String name=jsonDecode(reponse.body)['results'][0]['formatted_address'];
+    name.toString().substring(11);
+
+
+    print(name);
+    altermoem(name);
+    notifyListeners();
+
+
+  }
+
+  var moem=TextEditingController();
+void altermoem(name){
+
+  moem.text=name;
+  notifyListeners();
+
+}
+
+  void addmarker(location){
+
+    marker.add(Marker(position: location,markerId: MarkerId("현재위치"),
+   draggable: true));
     notifyListeners();
   }
 
@@ -162,7 +213,15 @@ class maptab extends ChangeNotifier{
 
 }
 
-void main() {
+void main()async {
+ // KakaoContext.clientId="5141bbdfc690f528828b113f3937b36b";
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  KakaoSdk.init(nativeAppKey: '5141bbdfc690f528828b113f3937b36b');
+
+
+
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (c)=>loginindex()),

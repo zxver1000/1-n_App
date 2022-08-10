@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class RegisterScrren extends StatefulWidget {
   const RegisterScrren({Key? key}) : super(key: key);
@@ -9,7 +11,7 @@ class RegisterScrren extends StatefulWidget {
 
 
 
-
+bool _isObscure = true;
 class _RegisterScrrenState extends State<RegisterScrren> {
   @override
   // formkey
@@ -19,17 +21,26 @@ class _RegisterScrrenState extends State<RegisterScrren> {
   final passwordEditingController= new TextEditingController();
   final NickNameEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
-void _tryValidation() {
- final isValid = _formkey.currentState!.validate();
- if(isValid)
-   {
-     _formkey.currentState!.save();
-   }
-}
+  final confirmEmailEditingController = new TextEditingController();
+
+  FocusNode NameFocusNode = FocusNode();
+  FocusNode EmailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+  FocusNode NickNameFocusNode = FocusNode();
+  FocusNode confirmFocusNode = FocusNode();
+  FocusNode confirmEFocusNode = FocusNode();
+
+
+  void _tryValidation() {
+    final isValid = _formkey.currentState!.validate();
+    if(isValid)
+    {
+      _formkey.currentState!.save();
+    }
+  }
 
 
   Widget build(BuildContext context) {
-
     //Name
     final NameField= TextFormField(
       autofocus: false,
@@ -94,9 +105,9 @@ void _tryValidation() {
     //emailID
 
     final EmailField= TextFormField(
-     autofocus: false,
-     controller: emailEditingController,
-     keyboardType: TextInputType.emailAddress,
+      focusNode:EmailFocusNode,
+      controller: emailEditingController,
+      keyboardType: TextInputType.emailAddress,
 
       validator: (value){
         RegExp regex =new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((konkuk+\.)+(ac+\.)+(kr))$');
@@ -109,96 +120,134 @@ void _tryValidation() {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-     onSaved: (value){
-       emailEditingController.text=value!;
-     },
-     textInputAction: TextInputAction.next,
-     decoration: InputDecoration(
-       prefixIcon: Icon(Icons.mail),
-       contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
-       hintText: "@konkuk.ac.kr",
-       border: OutlineInputBorder(
-         borderRadius: BorderRadius.circular(10),
-       ),
-     ),);
-  //passWord
-   final passWordField= TextFormField(
-     autofocus: false,
-     controller: passwordEditingController,
-     obscureText: true,
+      onSaved: (value){
+        emailEditingController.text=value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.mail),
+        contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
+        hintText: "@konkuk.ac.kr",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),);
 
-     validator: (value){
-       RegExp regex =new RegExp (r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,15}$');
-       if (value!.isEmpty){
-         return("필수 정보입니다.");
-       }
-       if(!regex.hasMatch(value)){
-         return ("8~16자 영문자,숫자,툭수문자를 사용하세요.");
-       }
-       return null;
-     },
-     autovalidateMode: AutovalidateMode.onUserInteraction,
-     onSaved: (value){
-       passwordEditingController.text=value!;
-     },
-     textInputAction: TextInputAction.next,
-     decoration: InputDecoration(
-       prefixIcon: Icon(Icons.vpn_key),
-       contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
-       hintText: "Password",
-       border: OutlineInputBorder(
-         borderRadius: BorderRadius.circular(10),
-       ),
-     ),);
-  //confirmPassword
-   final CpasswordField= TextFormField(
-     autofocus: false,
-     controller: confirmPasswordEditingController,
-     obscureText: true,
 
-     validator: (value)
-     {
-       if (value!.isEmpty){
-         return("필수 정보입니다.");
-       }
-       if(confirmPasswordEditingController.text !=passwordEditingController.text)
-         {
-           return ("비밀번호가 일치하지 않습니다.");
-         }
-       return null;
-     },
-     autovalidateMode: AutovalidateMode.onUserInteraction,
-     onSaved: (value){
-       confirmPasswordEditingController.text=value!;
-     },
-     textInputAction: TextInputAction.done,
-     decoration: InputDecoration(
-       prefixIcon: Icon(Icons.vpn_key),
-       contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
-       hintText: "Confirm Password",
-       border: OutlineInputBorder(
-         borderRadius: BorderRadius.circular(10),
-       ),
-     ),);
+    final confirmEmail= TextFormField(
+      focusNode:confirmEFocusNode,
+      controller: confirmEmailEditingController,
+      keyboardType: TextInputType.emailAddress,
 
-   final signUpButton = Material(
-     elevation: 5,
-     borderRadius: BorderRadius.circular(30),
-     color:Colors.greenAccent,
-     child: MaterialButton(
-       padding: EdgeInsets.fromLTRB(20,15,20,15),
-       minWidth: MediaQuery.of(context).size.width,
-       onPressed: (){
-         _tryValidation();
-       },
-       child: Text(
-         "가입하기",
-             textAlign: TextAlign.center,
-         style: TextStyle(
-           fontSize: 20,color:Colors.white,fontWeight: FontWeight.bold),
-         ),
-       ),
-     );
+      validator: (value){
+        RegExp regex =new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((konkuk+\.)+(ac+\.)+(kr))$');
+        if (value!.isEmpty){
+          return("필수정보입니다.");
+        }
+        if(!regex.hasMatch(value)){
+          return ("@konkuk.ac.kr건국대 이메일을 확인해 주세요");
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onSaved: (value){
+        emailEditingController.text=value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.mail),
+        contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
+        hintText: "@konkuk.ac.kr",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),);
+
+    final passWordField= TextFormField(
+      autofocus: false,
+      controller: passwordEditingController,
+      focusNode:passwordFocusNode,
+      obscureText: _isObscure,
+      validator: (value){
+        RegExp regex =new RegExp (r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,15}$');
+        if (value!.isEmpty){
+          return("필수 정보입니다.");
+        }
+        if(!regex.hasMatch(value)){
+          return ("8~16자 영문자,숫자,툭수문자를 사용하세요.");
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onSaved: (value){
+        passwordEditingController.text=value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        suffixIcon: IconButton(
+          icon:Icon(_isObscure ? Icons.visibility: Icons.visibility_off),
+          onPressed: (){
+            setState((){
+              _isObscure =!_isObscure;
+            });
+          },
+        ),
+        prefixIcon: Icon(Icons.vpn_key),
+        contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
+        hintText: "Password",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),);
+    //confirmPassword
+    final CpasswordField= TextFormField(
+      autofocus: false,
+      controller: confirmPasswordEditingController,
+      obscureText: true,
+
+      validator: (value)
+      {
+        if (value!.isEmpty){
+          return("필수 정보입니다.");
+        }
+        if(confirmPasswordEditingController.text !=passwordEditingController.text)
+        {
+          return ("비밀번호가 일치하지 않습니다.");
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onSaved: (value){
+        confirmPasswordEditingController.text=value!;
+      },
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.vpn_key),
+        contentPadding: EdgeInsets.fromLTRB(20,15,20,15),
+        hintText: "Confirm Password",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),);
+
+    final signUpButton = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color:Colors.greenAccent,
+      child: MaterialButton(
+        padding: EdgeInsets.fromLTRB(20,15,20,15),
+        minWidth: MediaQuery.of(context).size.width,
+        onPressed: (){
+          _tryValidation();
+        },
+        child: Text(
+          "가입하기",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 20,color:Colors.white,fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
 
 
     return Scaffold(
@@ -208,90 +257,143 @@ void _tryValidation() {
         elevation: 0,
         actions: <Widget>[
           IconButton(
-        icon: Icon(Icons.arrow_back,color:Colors.red),
-          onPressed: (){
-          Navigator.of(context).pop();
-          },
-        ),
-    ],
+            icon: Icon(Icons.arrow_back,color:Colors.red),
+            onPressed: (){
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
       body: GestureDetector(
         onTap: (){
           FocusScope.of(context).unfocus();
         },
-      child:Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formkey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 45,
-                       // child:Image.asset(
-                       // "",
-                       // fit:BoxFit.contain,
-                       //        )
-              ),
-                    SizedBox(height: 20),
-                    Text("이름",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    )),
-                    NameField,
-                    SizedBox(height: 20),
-                    Text("별명",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        )),
-                    nickNameField,
-                    SizedBox(height: 20),
-                    Text("아이디",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        )),
-                    Row(
-                      children:[
-                        EmailField,
+        child:Center(
+          child: SingleChildScrollView(
+            child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(36.0),
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 45,
+                          // child:Image.asset(
+                          // "",
+                          // fit:BoxFit.contain,
+                          //        )
+                        ),
+                        SizedBox(height: 20),
+                        Text("이름",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                        NameField,
+                        SizedBox(height: 20),
+                        Text("별명",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                        nickNameField,
+                        SizedBox(height: 20),
+                        Text("아이디",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                        Row(
+                          children: [
+                            Flexible(
+                                child: Container(
+                                  height: 100,
+                                  child: EmailField,
+                                )
+                            ),
+                          ],
+                        ),
+                        Text("이메일 인증",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                        Row(
+                          children: [
+                            Flexible(
+                                child: Container(
+                                  height: 100,
+                                  width: 800,
+                                  child: confirmEmail,
+                                )
+                            ),
+                            Container(height: 50
+                              ,child: GestureDetector(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color:Colors.white,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: Colors.greenAccent[200],
+                                  ),
+                                  margin:const EdgeInsets.symmetric(
+                                    horizontal: 5.0,
+                                  ),
+                                  child:Container(
+                                    height: 100,
+                                    width: 150,
+                                    alignment: Alignment.center,
+                                    child: CupertinoButton(
+                                      child: Text("문의하기",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          )),
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {
+
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),),
+                          ],
+                        ),
+
+                        Text("비밀번호",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                        passWordField,
+                        SizedBox(height: 20),
+                        Text("비밀번호 재확인",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            )),
+                        CpasswordField,
+                        SizedBox(height: 20),
+                        signUpButton,
+                        SizedBox(height: 30),
+
                       ],
-                      ),
 
-                    SizedBox(height: 20),
-                    Text("비밀번호",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        )),
-                    passWordField,
-                    SizedBox(height: 20),
-                    Text("비밀번호 재확인",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        )),
-                    CpasswordField,
-                    SizedBox(height: 20),
-                    signUpButton,
-                    SizedBox(height: 30),
+                    ),
+                  ),
 
-                  ],
-
-                ),
-              ),
-
-            )
+                )
+            ),
           ),
         ),
-      ),
-    ),);
+      ),);
   }
 
 }
+

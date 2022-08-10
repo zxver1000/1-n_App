@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
@@ -9,6 +10,11 @@ import '../main.dart';
 import 'package:side_app/chat/chatScreen.dart';
 import 'package:flutter/cupertino.dart';
 import '../main.dart';
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+
+import 'package:flutter/painting.dart';
+import 'locationSearch.dart';
+import 'deliverySearch.dart';
 class name{
   var s="안누름";
   name(this.s);
@@ -158,7 +164,15 @@ Container(
 
       // floatingActionButton을 누르게 되면 _goToTheLake 실행된다.
       floatingActionButton: FloatingActionButton(
-        onPressed: _goToTheLake,
+        onPressed: (){
+          //plusbutton
+
+          Navigator.push(context,
+          MaterialPageRoute(builder: (context)
+          {
+            return plusbutton();
+          }));
+        },
         child:Icon(Icons.edit),
       ),
     );
@@ -181,6 +195,19 @@ final textcontroller;
 }
 
 class _firstuiState extends State<firstui> {
+
+
+
+
+  void addmarker(location){
+
+    setState(() {
+
+    });
+
+
+
+  }
 
 
   Completer<GoogleMapController> _controller = Completer();
@@ -217,6 +244,20 @@ class _firstuiState extends State<firstui> {
           height: 250,
           child:GoogleMap(
             buildingsEnabled: false,
+            onTap: (idx){
+     context.read<markerdata>().addmarker(idx);
+ showDialog(context: context, builder: (BuildContext context){
+   return AlertDialog(
+     title: Text("장소 입력"),
+     content: Text("장소를 확정하시겠습니까?"),
+     actions: [
+       TextButton(onPressed: (){}, child: Text("OK")),
+       TextButton(onPressed: (){},child: Text("Cancel"),)
+     ],
+   );
+
+ });
+            },
             markers: Set.from(context.watch<markerdata>().marker),
             mapType: MapType.normal,
             initialCameraPosition: _kGooglePlex, // 초기 카메라 위치
@@ -647,3 +688,354 @@ class _buildItemState extends State<buildItem> {
     );
   }
 }
+
+
+class plusbutton extends StatefulWidget {
+  const plusbutton({Key? key}) : super(key: key);
+
+  @override
+  State<plusbutton> createState() => _plusbuttonState();
+}
+
+class _plusbuttonState extends State<plusbutton> {
+
+  List<String>drop=['1','2','3','4','5','6','7','8','9'];
+  List<String>menu=['짜장면','탕수육','불닭볶음면'];
+  String selectedmenu='짜장면';
+  String selected='1';
+  var moem=TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("모임 만들기"),backgroundColor: mainColor,),
+      body: SingleChildScrollView
+        (
+        child: Column(
+          children: [
+
+
+            Padding(padding: EdgeInsets.only(top: 5),
+      ),
+            SizedBox(height: 150,
+
+              width: double.infinity,
+              child: Container(
+                color: Colors.grey[300],
+                child: TextButton(
+                  onPressed: (){},
+                  child: Text("사진 추가"),
+                ),
+              ),
+            )
+
+            ,
+
+            Row(children: [
+
+              SizedBox(
+                width: 80,
+                height: 20,
+                child: Padding(padding: EdgeInsets.only(left: 10),
+                  child: Text("모임 이름",style: TextStyle(color: Colors.black
+                      ,fontSize: 15),
+                  ),),
+              ),
+
+
+
+              SizedBox(
+                width: 200,
+                height:48,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "모임 이름을 입력하세요",
+                    border: InputBorder.none
+                    ,
+                  ),style: TextStyle(fontSize: 15),
+                ),
+              )
+
+              ,
+
+            ],),
+
+
+
+
+            Row(children: [
+
+             SizedBox(
+               width: 80,
+               height: 20,
+               child: Padding(padding: EdgeInsets.only(left: 10),
+               child: Text("배달 장소",style: TextStyle(color: Colors.black
+               ,fontSize: 15),
+               ),),
+             ),
+
+
+
+        SizedBox(
+          width: 260,
+          height:48,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: "주문할 가게를 입력하세요",
+            border: InputBorder.none
+            ,
+            ),style: TextStyle(fontSize: 13),
+          ),
+        )
+
+        ,
+             ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: mainColor),onPressed: (){
+
+
+               Navigator.push(context,
+                   MaterialPageRoute(builder: (context)
+                   {
+                     return deliverysearch();
+                   }));
+             }, child: Row(children: [Icon(Icons.search)],)),
+
+           ],),
+
+
+        Row(children: [
+
+          SizedBox(
+            width: 80,
+            height: 20,
+            child: Padding(padding: EdgeInsets.only(left: 10),
+              child: Text("모임 장소",style: TextStyle(color: Colors.black,
+              fontSize: 15),),),
+          ),
+
+
+
+          SizedBox(
+            width: 260,
+            height: 48,
+            child: TextField(
+            controller: context.watch<markerdata>().moem
+            ,decoration: InputDecoration(
+                hintText: "모임 장소를 입력하세요",
+                border: InputBorder.none
+                ,
+              ),style: TextStyle(fontSize: 13),
+            ),
+          )
+
+          ,
+          ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: mainColor),onPressed: (){
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context)
+                {
+                  return locationSearch();
+                }));
+
+          }, child: Row(children: [Icon(Icons.search)],)),
+      
+        ],)
+           ,
+           Row(children: [
+             SizedBox(width: 80,
+             height: 20,
+             child: Padding(padding: EdgeInsets.only(left: 10),
+             
+             child: Text("최소 인원",style: TextStyle(color: Colors.black,
+             fontSize: 15),),
+             ),),
+
+
+             DropdownButtonHideUnderline(child:
+             DropdownButton(
+                 value: selected,
+                 items: drop.map((value){
+                   return DropdownMenuItem(
+                       value: value,child: Text(value,));
+                 }).toList(), onChanged: (idx)
+             {
+               setState(() {
+                 selected=idx.toString();
+               });
+             }))
+,
+             Text("명",style: TextStyle(color: Colors.black,fontSize: 15),)
+             ,
+             SizedBox(
+               width: 30,
+               child: TextField(
+                 inputFormatters: [LengthLimitingTextInputFormatter(1)],
+                 style:TextStyle(fontSize: 18),
+                 decoration: InputDecoration(
+                   border: InputBorder.none,
+
+                 ),
+
+               ),
+             ),
+
+           ],)
+
+           ,
+
+            Row(children: [
+              SizedBox(width: 80,
+                height: 20,
+                child: Padding(padding: EdgeInsets.only(left: 10),
+
+                  child: Text("배달 금액",style: TextStyle(color: Colors.black,
+                  fontSize: 15),),
+                ),),
+
+              
+              Text("3000",style: TextStyle(color: Colors.red,
+              fontSize: 15),)
+              ,
+              Padding(padding: EdgeInsets.only(left: 3)),
+              Text("원",style: TextStyle(fontSize: 15),),
+              SizedBox(
+                width: 30,
+                child: TextField(
+                  inputFormatters: [LengthLimitingTextInputFormatter(1)],
+                  style:TextStyle(fontSize: 18),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+
+                  ),
+
+                ),
+              ),
+
+            ],),
+
+            Row(children: [
+              SizedBox(width: 80,
+                height: 20,
+                child: Padding(padding: EdgeInsets.only(left: 10),
+
+                  child: Text("주문 메뉴",style: TextStyle(color: Colors.black,
+                      fontSize: 15),),
+                ),),
+
+
+              DropdownButtonHideUnderline(child:
+              DropdownButton(
+                  value: selectedmenu,
+                  items: menu.map((value){
+                    return DropdownMenuItem(
+                        value: value,child: Text(value,));
+                  }).toList(), onChanged: (idx)
+              {
+                setState(() {
+                  selectedmenu=idx.toString();
+                });
+              }))
+              ,
+
+              SizedBox(
+                width: 30,
+                child: TextField(
+                  inputFormatters: [LengthLimitingTextInputFormatter(1)],
+                  style:TextStyle(fontSize: 18),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+
+                  ),
+
+                ),
+              ),
+
+            ],),
+
+            Row(children: [
+              SizedBox(width: 80,
+                height: 20,
+                child: Padding(padding: EdgeInsets.only(left: 10),
+
+                  child: Text("배달 시간",style: TextStyle(color: Colors.black,
+                      fontSize: 15),),
+                ),),
+
+
+              Text("30~40",style: TextStyle(color: Colors.red,
+                  fontSize: 15),)
+              ,
+              Padding(padding: EdgeInsets.only(left: 3)),
+              Text("분",style: TextStyle(fontSize: 15),),
+              SizedBox(
+                width: 30,
+                child: TextField(
+                  inputFormatters: [LengthLimitingTextInputFormatter(1)],
+                  style:TextStyle(fontSize: 18),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+
+                  ),
+
+                ),
+              ),
+
+            ],),
+
+
+
+
+            Row(children: [
+        SizedBox(width: 80,
+          height: 20,
+          child: Padding(padding: EdgeInsets.only(left: 10),
+
+            child: Text("가게 위치",style: TextStyle(color: Colors.black,
+                fontSize: 15),),
+          ),),
+
+
+        Text("1.5",style: TextStyle(color: Colors.red,
+            fontSize: 15),)
+        ,
+        Padding(padding: EdgeInsets.only(left: 3)),
+        Text("km",style: TextStyle(fontSize: 15),),
+        SizedBox(
+          width: 30,
+          child: TextField(
+            inputFormatters: [LengthLimitingTextInputFormatter(1)],
+            style:TextStyle(fontSize: 18),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+
+            ),
+
+          ),
+        ),
+
+      ],),
+            
+
+
+          ],
+        ),
+      ),
+bottomNavigationBar: BottomAppBar(
+    color: Colors.white60,
+    child:
+SizedBox(
+  width: double.infinity,
+  child:
+  Container(
+    child: TextButton(onPressed: (){}, child: Text("만들기",
+      style: TextStyle(color: Colors.black,
+          fontSize: 20),))
+  )
+  ,
+)
+
+),
+    );
+  }
+}
+
+
+
