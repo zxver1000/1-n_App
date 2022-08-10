@@ -121,7 +121,7 @@ class markerdata extends ChangeNotifier {
 
    var lats=idx.latitude;
    var longs=idx.longitude;
-    final url='https://maps.googleapis.com/maps/api/geocode/json?latlng=$lats,$longs&key=AIzaSyCFZeBuFQYqg9qt7Yd4xwWC6UBNOwzDSi8&language=ko';
+    final url='https://maps.googleapis.com/maps/api/geocode/json?latlng=$lats,$longs&key=&language=ko';
     final reponse=await http.get(Uri.parse(url));
     print(jsonDecode(reponse.body)['results'][0]['formatted_address']);
 
