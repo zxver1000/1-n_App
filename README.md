@@ -87,6 +87,7 @@ docker run -p 8080:8080 ithinkso/1-nproject
 </br>
 
 ## **🔖 Notion**
+노션 Wiki에서 확인하실수있습니다!
 https://goldenrod-tarsal-d4f.notion.site/ReadMe-md-1777ec61b5134e5597beab7c9107664e
 
 </br>
@@ -95,17 +96,16 @@ https://goldenrod-tarsal-d4f.notion.site/ReadMe-md-1777ec61b5134e5597beab7c91076
 ## **👨‍💻 참여 인원 👩‍💻**
 
 최용재(웹 프론트)    <a href="https://github.com/yjc2021"><img src="https://img.shields.io/badge/dev--yjc2021-339933?style=flat-square&logo=github&logoColor=yellow&link=https://github.com/yjc2021"/></a>
-
-
+</br>
 </br>
 최정윤 (웹 프론트)   <a href="https://github.com/c-jeongyyun"><img src="https://img.shields.io/badge/dev--cjeongyyun-80396a?style=flat-square&logo=github&logoColor=white&link=https://github.com/c-jeongyyun"/></a>
-
+</br>
 </br>
 황치현 (앱 프론트) <a href="https://github.com/clgusdl2"><img src="https://img.shields.io/badge/dev--yjc2021-339933?style=flat-square&logo=github&logoColor=white&link=https://github.com/clgusdl2"/></a>
-
+</br>
 </br>
 고현호 (앱 프론트) <a href="https://github.com/zxver1000"><img src="https://img.shields.io/badge/dev--yjc2021-339933?style=flat-square&logo=github&logoColor=white&link=https://github.com/zxver1000"/></a>
-
+</br>
 </br>
 홍승택 (백엔드,PM)<a href="https://github.com/clgusdl2"><img src="https://img.shields.io/badge/dev--yjc2021-339933?style=flat-square&logo=github&logoColor=white&link=https://github.com/clgusdl2"/></a>
 
